@@ -7,9 +7,10 @@ What is the AuthStore Plugin?
 The AuthStore plugin gives you the ability to store the credentials in a separate file.
 That way you do not need to enter your credentials every time you run composer.
 
-Last year I was working on a PR (composer/composer#1862) for Composer which up to now
-is not merged in master. Kudos to Manuel Lemos from phpclasses.org for pointing out
-that the new Plugin API of Composer might help to apply the PR without patching Composer.
+Last year I was working on a [PR](https://github.com/composer/composer/issues/1862) for Composer which up to now
+is not merged in master. Kudos to Manuel Lemos from [phpclasses.org](http://phpclasses.org) for pointing out
+that the new Plugin API of Composer might help to apply the PR without patching Composer. As a result this plugin
+came alive.
 
 How to use it?
 
