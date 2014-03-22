@@ -1,6 +1,8 @@
 README
 ======
 
+[![Build Status](https://travis-ci.org/bitExpert/composer-authstore-plugin.svg?branch=release/r0.2.0)](https://travis-ci.org/bitExpert/composer-authstore-plugin)
+
 What is the AuthStore Plugin?
 ----------------
 
