@@ -27,7 +27,6 @@ class AuthStorePlugin implements PluginInterface
      * @var IOInterface
      */
     protected $io;
-
     /**
      * @var Composer
      */
@@ -47,7 +46,6 @@ class AuthStorePlugin implements PluginInterface
         foreach ($authConfig as $host => $credentials) {
 
             if (!isset($credentials['username'])) {
-                unset($this->authConfig[$host]);
                 continue;
             }
 
