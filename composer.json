@@ -13,7 +13,6 @@
             "email" : "S.Hochdoerfer@bitExpert.de"
         }
     ],
-    "minimum-stability" : "dev",
     "autoload" : {
         "psr-0" : {
             "bitExpert\\Composer\\Auth" : [
