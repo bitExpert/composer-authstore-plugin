@@ -101,6 +101,20 @@ class AuthStorePluginUnitTest extends \Composer\TestCase
 
     /**
      * @test
+     * @expectedException \Seld\JsonLint\ParsingException
+     */
+    public function invalidJsonWillThrowException()
+    {
+        file_put_contents($this->homeDir . '/auth.json', '"config": { "basic-auth": {}, }');
+
+        $this->io->expects($this->never())
+            ->method('setAuthentication');
+
+        $this->authPlugin->activate($this->composer, $this->io);
+    }
+
+    /**
+     * @test
      */
     public function emptyLocalAuthFileAndEmptyGlobalAuthFileWillBeIgnored()
     {
