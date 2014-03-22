@@ -85,6 +85,7 @@ class AuthStorePlugin implements PluginInterface
      *
      * @param string $authFilePath
      * @return array
+     * @throws \Seld\JsonLint\ParsingException
      */
     private function readAuthConfig( $authFilePath )
     {
