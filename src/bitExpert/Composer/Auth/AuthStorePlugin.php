@@ -68,8 +68,8 @@ class AuthStorePlugin implements PluginInterface
 
     /**
      * Returns basic auth config.
-     * It consists in an aggregation of auth.json from COMPOSER_HOME and configuration from local auth.json
-     * under "config" key.
+     * It consists of an aggregation of auth.json from COMPOSER_HOME and the local auth.json file in your project`s
+     * folder.
      *
      * Local config always has precedence.
      *
@@ -77,7 +77,7 @@ class AuthStorePlugin implements PluginInterface
      */
     protected function getAuthConfig()
     {
-        $localConfig = $this->readAuthConfig(getcwd() . '/auth.json');
+        $localConfig = $this->readAuthConfig($this->getProjectDir() . '/auth.json');
         $globalConfig = $this->readAuthConfig($this->getHomeDir() . '/auth.json');
         return $localConfig + $globalConfig;
     }
@@ -86,7 +86,6 @@ class AuthStorePlugin implements PluginInterface
      * Reads auth config from given json file path and returns it.
      *
      * @param string $authFilePath
-     *
      * @return array
      */
     private function readAuthConfig( $authFilePath )
@@ -127,5 +126,15 @@ class AuthStorePlugin implements PluginInterface
         }
 
         return $home;
+    }
+
+    /**
+     * Returns the project directory in which Composer was invoked.
+     *
+     * @return string
+     */
+    protected function getProjectDir()
+    {
+        return getcwd();
     }
 }
