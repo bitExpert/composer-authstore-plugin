@@ -24,21 +24,27 @@ use Composer\Plugin\PluginInterface;
 class AuthStorePlugin implements PluginInterface
 {
     /**
-     * @var
+     * @var IOInterface
      */
     protected $io;
+
+    /**
+     * @var Composer
+     */
+    protected $composer;
 
     /**
      * {@inheritDoc}
      */
     public function activate(Composer $composer, IOInterface $io)
     {
+        $this->composer = $composer;
         $this->io = $io;
 
         // setting the authentication credentials here as the onPreFileDownload event
         // does not get fired when accessing the packages.json file of a satis repository.
-        $this->authConfig = $this->readAuthConfig();
-        foreach ($this->authConfig as $host => $credentials) {
+        $authConfig = $this->getAuthConfig();
+        foreach ($authConfig as $host => $credentials) {
 
             if (!isset($credentials['username'])) {
                 unset($this->authConfig[$host]);
@@ -61,18 +67,34 @@ class AuthStorePlugin implements PluginInterface
     }
 
     /**
-     * Will read the auth.json file from the COMPOSER_HOME directory and return
-     * it`s contents. If the file does not exist and empty array is returned.
+     * Returns basic auth config.
+     * It consists in an aggregation of auth.json from COMPOSER_HOME and configuration from local auth.json
+     * under "config" key.
      *
-     * return array
+     * Local config always has precedence.
+     *
+     * @return array
      */
-    protected function readAuthConfig()
+    protected function getAuthConfig()
     {
-        $home = $this->getHomeDir();
-        $file = new JsonFile($home . '/auth.json');
+        $localConfig = $this->readAuthConfig(getcwd() . '/auth.json');
+        $globalConfig = $this->readAuthConfig($this->getHomeDir() . '/auth.json');
+        return $localConfig + $globalConfig;
+    }
+
+    /**
+     * Reads auth config from given json file path and returns it.
+     *
+     * @param string $authFilePath
+     *
+     * @return array
+     */
+    private function readAuthConfig( $authFilePath )
+    {
+        $file = new JsonFile($authFilePath);
         if ($file->exists()) {
             $auth = $file->read();
-            if (isset($auth['config']) && isset($auth['config']['basic-auth'])) {
+            if (isset($auth['config']['basic-auth'])) {
                 return $auth['config']['basic-auth'];
             }
         }
