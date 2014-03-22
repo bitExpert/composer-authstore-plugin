@@ -93,7 +93,7 @@ class AuthStorePlugin implements PluginInterface
         $file = new JsonFile($authFilePath);
         if ($file->exists()) {
             $auth = $file->read();
-            if (isset($auth['config']['basic-auth'])) {
+            if (isset($auth['config']) && isset($auth['config']['basic-auth'])) {
                 return $auth['config']['basic-auth'];
             }
         }
