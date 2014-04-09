@@ -224,6 +224,40 @@ class AuthStorePluginUnitTest extends \Composer\TestCase
     }
 
     /**
+     * @test
+     */
+    public function credentialsWithoutUsernameWillBeIgnored()
+    {
+        $credentials = array(
+            'satis.loc' => array(
+                'password' => 'my_satis_pass'
+            )
+        );
+        $this->createAuthFile($this->homeDir, $credentials);
+        $this->io
+            ->expects($this->never())
+            ->method('setAuthentication');
+
+        $this->authPlugin->activate($this->composer, $this->io);
+    }
+
+    /**
+     * @test
+     */
+    public function missingPasswordInCredentialsConfigWillDefaultToNull()
+    {
+        $credentials = array(
+            'satis.loc' => array(
+                'username' => 'my_satis_user',
+            )
+        );
+        $this->createAuthFile($this->homeDir, $credentials);
+        $this->configureExpectationsFor($credentials);
+
+        $this->authPlugin->activate($this->composer, $this->io);
+    }
+
+    /**
      * Helper method for creating a auth.json file with the given $credentials in the given $dir.
      *
      * @param string $dir
@@ -250,6 +284,16 @@ class AuthStorePluginUnitTest extends \Composer\TestCase
     protected function configureExpectationsFor($credentials = array())
     {
         foreach($credentials as $host => $config) {
+            // satisfies the requirement that credentials without a username get ignored
+            if (!isset($config['username'])) {
+                continue;
+            }
+
+            // satisfies the requirement that not existing passwords will default to null
+            if(!isset($config['password'])) {
+                $config['password'] = null;
+            }
+
             $this->io
                 ->expects($this->at($this->idx++))
                 ->method('setAuthentication')
