@@ -1,6 +1,8 @@
 README
 ======
 
+> **Note:** The plugin is deprecated! Use the built-in functionality in Composer instead!
+
 What is the AuthStore Plugin?
 ----------------
 
