@@ -58,6 +58,8 @@ class AuthStorePlugin implements PluginInterface
             $this->io->setAuthentication('http://' . $host . '/packages.json', $credentials['username'], $credentials['password']);
             $this->io->setAuthentication('https://' . $host . '/packages.json', $credentials['username'], $credentials['password']);
         }
+
+        $this->io->write('<error>AuthStore plugin is deprecated. Use the built-in functionality in Composer instead!</error>');
     }
 
     /**
