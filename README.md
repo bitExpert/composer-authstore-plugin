@@ -3,6 +3,8 @@ README
 
 [![Build Status](https://travis-ci.org/bitExpert/composer-authstore-plugin.svg?branch=master)](https://travis-ci.org/bitExpert/composer-authstore-plugin)
 
+> **Note:** The plugin is deprecated! Use the built-in functionality in Composer instead!
+
 What is the AuthStore Plugin?
 ----------------
 
